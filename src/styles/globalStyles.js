@@ -21,6 +21,7 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
     box-sizing: border-box;
+	font-family: 'inter', sans-serif;
 }
 
 article, aside, details, figcaption, figure, 
@@ -64,7 +65,34 @@ font-weight: 700;
 font-size: 14px;
 line-height: 24px;
 } 
+.Toastify__toast-icon {
+    width: 35px;
+}
+.Toastify__close-button {
+	color: var(--grey0);
+}
 
+input:focus {
+    outline: none;
+    color: inherit;
+    border: none;
+    animation: none;
+}
+button {
+	cursor: pointer;
+}
+button:hover, a {
+	filter: brightness(110%)
+}
+
+.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border: none;
+      border-radius: "5px 5px 0 0";
+ }
+ input:-webkit-autofill{
+    -webkit-box-shadow: 0 0 0px 1000px var(--grey2) inset !important;
+    -webkit-text-fill-color: var(--grey1);
+}
 :root {
     --grey0: #F8F9FA;
     --grey1: #868E96;
@@ -74,5 +102,39 @@ line-height: 24px;
     --pink: #FF577F;
     --green: #3FE864;
     --red: #E83F5B;
+}
+
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--grey1) var(--grey3);
+  }
+
+
+  *::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: var(--grey3);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--grey1);
+    border-radius: 0px;
+    border: 0px solid #ffffff;
+  }
+
+@media screen and ( max-width:450px) {
+    .App {
+        overflow: hidden;
+    }
+    .title, .mobile {
+        width: 95% !important;
+    }
+  
+    main {
+        width: 97% !important;
+    }
 }
 `

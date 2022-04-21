@@ -1,36 +1,16 @@
 import { ToastContainer, toast } from 'react-toastify';
 
-export default function Home() {
-    
-        const notify = () => {
-            toast.success('🦄 Wow so easy!', {
-                position: "top-right",
-                autoClose: 2500,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                style: {backgroundColor: 'red'}
-                });
-        }
-    
+import Main from '../../components/Main'
+import Header from '../../components/Header'
+import Nav from '../../components/Nav'
 
+
+export default function Home() {
   return (
     <div>
-          <button onClick={notify}>Notify!</button>
-          <ToastContainer
-            position="top-right"
-            autoClose={2500}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          
-            />
+    <Nav/>
+    <Header/>
+    <Main/>
     </div>
   )
 }
