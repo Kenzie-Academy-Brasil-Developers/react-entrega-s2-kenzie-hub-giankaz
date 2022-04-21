@@ -65,6 +65,11 @@ font-weight: 700;
 font-size: 14px;
 line-height: 24px;
 } 
+.Toastify__toast-theme--light {
+  background-color: var(--grey2);
+  color: var(--grey0)
+} 
+
 .Toastify__toast-icon {
     width: 35px;
 }
@@ -92,6 +97,9 @@ button:hover, a {
  input:-webkit-autofill{
     -webkit-box-shadow: 0 0 0px 1000px var(--grey2) inset !important;
     -webkit-text-fill-color: var(--grey1);
+}
+.error {
+  color: var(--red)
 }
 :root {
     --grey0: #F8F9FA;

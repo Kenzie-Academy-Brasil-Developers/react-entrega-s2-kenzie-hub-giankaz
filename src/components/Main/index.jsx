@@ -1,56 +1,23 @@
-import {useState, useEffect} from 'react'
 import {StyledMain, StyledUl} from './style'
+import {useState, useEffect} from 'react'
 
+import ModalStyled from '../Modal'
+export default function Main({user}) {
+    const [open, setOpen] = useState(false);
 
-export default function Main() {
   return (
-    <StyledMain>
+      <StyledMain>
+        <ModalStyled open={open} setOpen={setOpen}/>
         <div className="title">
             <h3>Tecnologias</h3>
-            <button>+</button>
+            <button onClick={() => setOpen(true)}>+</button>
         </div>
 
         <StyledUl>
-            <li>
+            <li onClick={() => console.log('ok')}>
                 <p>react</p>
                 <span>react</span>
 
-            </li>
-            <li>
-                <p>react</p>
-                <span>react</span>
-            </li>
-            <li>
-                <p>react</p>
-                <span>react</span>
-            </li>
-            <li>
-                <p>react</p>
-                <span>react</span>
-            </li>
-            <li>
-                <p>react</p>
-                <span>react</span>
-            </li>
-            <li>
-                <p>react</p>
-                <span>react</span>
-            </li>
-            <li>
-                <p>react</p>
-                <span>react</span>
-            </li>
-            <li>
-                <p>react</p>
-                <span>react</span>
-            </li>
-            <li>
-                <p>react</p>
-                <span>react</span>
-            </li>
-            <li>
-                <p>react</p>
-                <span>react</span>
             </li>
         </StyledUl>
     </StyledMain>

@@ -53,5 +53,11 @@ li {
     background-color: var(--grey4);
     border-radius: 4px;
     color: var(--grey0)
+
+}
+
+li:hover {
+    cursor: pointer;
+    background-color: var(--grey2)
 }
 `

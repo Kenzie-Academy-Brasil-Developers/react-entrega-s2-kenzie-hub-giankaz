@@ -1,7 +1,12 @@
 import {StyledMain, StyledH1, StyledForm} from './style'
+
 import {useHistory} from 'react-router-dom'
 
 import {useState} from 'react'
+
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -11,12 +16,78 @@ import InputBase from "@mui/material/InputBase"
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
+import {Api} from '../../components/API/index.jsx'
+
+import { ToastContainer, toast } from 'react-toastify';
+
 export default function Register() {
   const history = useHistory()
+  
   const [values, setValues] = useState({
     password: '',
     showPassword: false,
+    confirm: '',
+    showConfirm: false
   })
+  
+
+  const schema = yup.object().shape({
+    name: yup.string().required('Digite seu nome!').min(3, 'Digite um nome com mais de 03 letras!').matches(/^[aA-zZ\s]+$/, "Deve conter apenas letras!"),
+    email: yup.string().required('Digite seu Email!').email('Email não é válido'),
+    password: yup.string().required('Digite sua Senha!').matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+     "Deve conter 08 caracteres sendo uma letra maiúscula, uma minúscula, um número e um caractere especial(!,@,#,$,%,&...)"
+    ),
+    confirm: yup.string().required('Confirme sua senha!').oneOf([yup.ref('password')], 'As senhas não são iguais!'),
+    module: yup.string().required('Selecione seu módulo')
+})
+
+const {
+register,
+handleSubmit,
+formState: { errors },
+} = useForm({
+    resolver: yupResolver(schema)
+});
+
+
+const submit = ({name, email, password, module}) => {
+
+
+    Api.post('users', {
+      "email": email,
+      "password": password,
+      "name": name,
+      "bio": "Olá!",
+      "contact": "Digite aqui seu Contato",
+      "course_module": `${module}`
+      })
+    .then((res) => {
+      toast.success('Conta criada com sucesso!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        })
+        setTimeout(() => history.push('/'), 3000)
+    })
+
+    .catch((err) => {
+      toast.error('Ops! Algo deu errado.', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        })
+    })
+   
+}
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -29,13 +100,21 @@ export default function Register() {
     })
   }
 
-  const handleMouseDownPassword = (event) => {
+  const handleMouseDownPassword= (event) => {
+    event.preventDefault()
+  }
+
+  const handleClickShowConfirm = () => {
+    setValues({
+      ...values,
+      showConfirm: !values.showConfirm,
+    })
+  }
+
+  const handleMouseDownConfirm = (event) => {
     event.preventDefault()
   };
 
-  const handleRegister = () => {
-    history.push('/')
-  }
   const handleGoBack = () => {
     history.push('/')
   }
@@ -46,46 +125,43 @@ export default function Register() {
       <button className="back" onClick={handleGoBack}>Voltar</button>
       </div>
 
-      <StyledForm>
+      <StyledForm onSubmit={handleSubmit(submit)}>
         <h3>Crie sua conta</h3>
         <p>Rápido e grátis, vamos nessa</p>
 
         <div className="containerInput">
-          <label htmlFor="email">Nome</label>
+          <label htmlFor="name">Nome {errors.name?.message && <span className="error">- {errors.name.message}</span>}</label>
           <InputBase
            name='name'
            placeholder="Digite aqui seu Nome"
             sx={{backgroundColor: 'var(--grey2)', width: '90%', borderRadius: '8px', height: '48px', padding: '15px',  color: 'var(--grey0)', cursor: 'text'}}
-						/* error={errors.email?.message ? true : false} */
-						id="outlined-required"
-						/* label={errors.email?.message ? errors.email.message : "E-mail"} */
+						id="outlined-required" 
 						defaultValue=""
-					/* 	{...register("email")} */
+						{...register("name")} 
 				    />
 
           </div>
           <div className="containerInput">
-          <label htmlFor="name">Email</label>
+          <label htmlFor="email">Email {errors.email?.message && <span className="error">- {errors.email.message}</span>}</label>
           <InputBase
            type="email"
           name='email'
            placeholder="Digite aqui seu Email"
             sx={{backgroundColor: 'var(--grey2)', width: '90%', borderRadius: '8px', height: '48px', padding: '15px',  color: 'var(--grey0)', cursor: 'text'}}
-						/* error={errors.email?.message ? true : false} */
 						id="outlined-required"
-						/* label={errors.email?.message ? errors.email.message : "E-mail"} */
 						defaultValue=""
-					/* 	{...register("email")} */
+						{...register("email")} 
 				    />
 
           </div>
 
           <div className="containerInput">
           
-          <label htmlFor="pass">Senha</label>
+          <label htmlFor="password">Senha {errors.password?.message && <span className="error">- {errors.password.message}</span>}</label>
           <InputBase
+            {...register('password')}
             sx={{backgroundColor: 'var(--grey2)', width: '90%', borderRadius: '8px', height: '48px', padding: '15px', color: 'var(--grey0)', cursor: 'text'}}
-            name='pass'
+            name='password'
             placeholder="Digite aqui sua senha"
             id="outlined-adornment-password"
             type={values.showPassword ? 'text' : 'password'}
@@ -109,25 +185,26 @@ export default function Register() {
         </div>
         <div className="containerInput">
           
-          <label htmlFor="pass">Confirmar senha</label>
+          <label htmlFor="confirm">Confirmar senha {errors.confirm?.message && <span className="error">- {errors.confirm.message}</span>}</label>
           <InputBase
+            {...register('confirm')}
             sx={{backgroundColor: 'var(--grey2)', width: '90%', borderRadius: '8px', height: '48px', padding: '15px', color: 'var(--grey0)', cursor: 'text'}}
-            name='pass'
+            name='confirm'
             placeholder="Digite novamente sua senha"
             id="outlined-adornment-password"
-            type={values.showPassword ? 'text' : 'password'}
-            value={values.password}
-            onChange={handleChange('password')}
+            type={values.showConfirm ? 'text' : 'password'}
+            value={values.confirm}
+            onChange={handleChange('confirm')}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
                 sx={{color: 'var(--grey0)'}}
                   aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
+                  onClick={handleClickShowConfirm}
+                  onMouseDown={handleMouseDownConfirm}
                   edge="end"
                 >
-                  {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                  {values.showConfirm ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
             }
@@ -144,7 +221,7 @@ export default function Register() {
               defaultValue={1}
               label="Age"
               onChange={handleChange}
-          
+            {...register('module')}
              >
                 <MenuItem value={1}>Primeiro Módulo</MenuItem>
                 <MenuItem value={2}>Segundo Módulo</MenuItem>
@@ -153,9 +230,21 @@ export default function Register() {
         </Select>
             </div>
 
-            <button className='btn' type='submit' onClick={handleRegister}>Cadastrar</button>
+            <button className='btn' type='submit'>Cadastrar</button>
 
       </StyledForm>
+              <ToastContainer
+                sx={{backgroundColor: 'var(--grey2)'}}
+                position="top-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+        />
     </StyledMain>
   )
 }
