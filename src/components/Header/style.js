@@ -5,12 +5,14 @@ display: flex;
 flex-flow: row nowrap;
 width: 100%;
 margin: 0 auto;
-height: 120px;
+height: 180px;
 justify-content: space-between;
 border-bottom: 2px solid var(--grey3);
 text-align: center;
-align-items: center;
+align-items: flex-end;
 min-width: 300px;
+
+
 
 
 div {
@@ -20,6 +22,7 @@ width: 60%;
 margin: 0 auto;
 justify-content: space-between;
 align-items: center;
+margin-bottom: 40px;
 }
 div>p {
     color: var(--grey1);
@@ -31,6 +34,7 @@ div>p {
         flex-flow: column nowrap;
         align-items: flex-start;
         gap: 20px;
+        margin-bottom: 30px;
     }
 }
 `

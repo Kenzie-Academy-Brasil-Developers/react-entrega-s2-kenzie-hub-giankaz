@@ -134,9 +134,6 @@ button:hover, a {
   }
 
 @media screen and ( max-width:450px) {
-    .App {
-        overflow: hidden;
-    }
     .title, .mobile {
         width: 95% !important;
     }

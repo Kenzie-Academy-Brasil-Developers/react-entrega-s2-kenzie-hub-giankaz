@@ -9,6 +9,9 @@ display: flex;
 align-items: center;
 justify-content: center;
 min-width: 300px;
+position: fixed;
+background-color: var(--grey4);
+z-index: 5;
 
 
 .title {

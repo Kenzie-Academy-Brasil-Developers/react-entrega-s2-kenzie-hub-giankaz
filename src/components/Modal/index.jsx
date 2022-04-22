@@ -148,12 +148,7 @@ export default function ModalStyled({
 				</div>
 				<Form  onSubmit={handleSubmit(submit)}>
 					<div className="containerInput">
-						<label htmlFor="tech">
-							Nome{" "}
-							{errors.name?.message && (
-								<span className="error">- {errors.name.message}</span>
-							)}
-						</label>
+						<label htmlFor="tech">Nome</label>
 						<InputBase
 							{...register("tech")}
 							name="tech"
