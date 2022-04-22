@@ -20,9 +20,9 @@ export default function ModalStyled({
 	setUpdate,
 	update,
 	item,
-  check,
-  setErr,
-  setSuc
+	check,
+	setErr,
+	setSuc,
 }) {
 	const [title, setTitle] = useState("");
 	const [status, setStatus] = useState("");
@@ -54,22 +54,19 @@ export default function ModalStyled({
 	};
 
 	const schema = yup.object().shape({
-    tech: yup.string(),
-    status: yup.string(),
-  });
+		tech: yup.string(),
+		status: yup.string(),
+	});
 
- 
-    const {
-      register,
-      handleSubmit,
-      formState: { errors },
-    } = useForm({
-      resolver: yupResolver(schema),
-    });
-  
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
+		resolver: yupResolver(schema),
+	});
 
 	const submit = ({ tech, status }) => {
-
 		if (check) {
 			Api.put(
 				`users/techs/${item.id}`,
@@ -82,15 +79,14 @@ export default function ModalStyled({
 					},
 				}
 			)
-      .then((res) => {
-        setSuc(true)
-				setUpdate(!update);
-				handleClose();
-			})
-      .catch((error) => {
-        setErr(true)
-      })
-
+				.then((res) => {
+					setSuc(true);
+					setUpdate(!update);
+					handleClose();
+				})
+				.catch((error) => {
+					setErr(true);
+				});
 		} else {
 			Api.post(
 				"users/techs",
@@ -105,14 +101,14 @@ export default function ModalStyled({
 				}
 			)
 				.then((res) => {
-          setSuc(true)
-          setUpdate(!update);
-          setStatus("Iniciante");
-          setTitle("");
-          handleClose();
+					setSuc(true);
+					setUpdate(!update);
+					setStatus("Iniciante");
+					setTitle("");
+					handleClose();
 				})
 				.catch((err) => {
-          setErr(true)
+					setErr(true);
 				});
 		}
 	};
@@ -124,29 +120,26 @@ export default function ModalStyled({
 			},
 		})
 			.then((res) => {
-        setSuc(true)
+				setSuc(true);
 				setUpdate(!update);
 				handleClose();
 			})
 			.catch((err) => {
-        console.log(`🤖 ~ handleDelete ~ err`, err)
-        setErr(true)
-      })
-	}
+				setErr(true);
+			});
+	};
 	return (
 		<Modal
 			open={open}
 			aria-labelledby="modal-modal-title"
 			aria-describedby="modal-modal-description"
 		>
-      
 			<Box>
-
 				<div className="modal-title">
 					<h1>{h1}</h1>
 					<button onClick={handleClose}>X</button>
 				</div>
-				<Form  onSubmit={handleSubmit(submit)}>
+				<Form onSubmit={handleSubmit(submit)}>
 					<div className="containerInput">
 						<label htmlFor="tech">Nome</label>
 						<InputBase
@@ -192,7 +185,15 @@ export default function ModalStyled({
 						</Select>
 					</div>
 					<div className="containerBtn">
-						{check ? 	<button type="submit" className="btn">Salvar alterações</button> : <button type="submit" className="btn">Cadastrar Tecnologia</button>}
+						{check ? (
+							<button type="submit" className="btn">
+								Salvar alterações
+							</button>
+						) : (
+							<button type="submit" className="btn">
+								Cadastrar Tecnologia
+							</button>
+						)}
 						{check && (
 							<button type="button" className="btn del" onClick={handleDelete}>
 								Excluir
@@ -201,7 +202,6 @@ export default function ModalStyled({
 					</div>
 				</Form>
 			</Box>
-  
 		</Modal>
 	);
 }
