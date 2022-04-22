@@ -32,7 +32,7 @@ export default function Register() {
   
 
   const schema = yup.object().shape({
-    name: yup.string().required('Digite seu nome!').min(3, 'Digite um nome com mais de 03 letras!').matches(/^[aA-zZ\s]+$/, "Deve conter apenas letras!"),
+    name: yup.string().required('Digite seu nome!').min(3, 'Digite um nome com mais de 03 letras!').max(25, 'Máximo de 25 Caracteres').matches(/^[aA-zZ\s]+$/, "Deve conter apenas letras!"),
     email: yup.string().required('Digite seu Email!').email('Email não é válido'),
     password: yup.string().required('Digite sua Senha!').matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,

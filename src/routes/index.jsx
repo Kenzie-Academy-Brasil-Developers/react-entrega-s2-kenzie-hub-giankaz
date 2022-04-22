@@ -5,7 +5,7 @@ import Register from '../pages/Register'
 import {useState, useEffect} from 'react'
 
 export default function Routes() {
-  const [token, setToken] = useState('')
+  const [token ,setToken] = useState('')
   const [state, setState] = useState(false)
 
   const tk = window.localStorage.getItem('@Khub:token');
@@ -18,6 +18,19 @@ export default function Routes() {
     }
   }, [tk])
 
+
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    const tokenCheck = window.localStorage.getItem('@Khub:token')
+     if (tokenCheck === null) {
+      setState(false)
+      window.localStorage.removeItem('@Khub:user')
+    } 
+  }, 5000);
+
+  return () => clearInterval(interval)
+}, [])
 
     return (
       <Switch>

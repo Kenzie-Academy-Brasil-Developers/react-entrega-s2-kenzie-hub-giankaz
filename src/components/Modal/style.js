@@ -48,6 +48,12 @@ align-items: center;
 justify-content: space-around;
 padding: 15px 15px 5px 15px;
 
+.css-1jb1tcy-MuiInputBase-root.Mui-disabled {
+    background-color: rgba(89, 50, 63, 1);
+    font-weight: bold;
+    
+}
+
 div {
     width: 100%;
 }
@@ -71,5 +77,14 @@ div>label {
     font-weight: bold;
     text-align: center;
     text-decoration: none;
+}
+
+.del {
+    width: 40%;
+    background-color: var(--grey1)
+}
+.containerBtn {
+    display: flex;
+    gap: 20px;
 }
 `

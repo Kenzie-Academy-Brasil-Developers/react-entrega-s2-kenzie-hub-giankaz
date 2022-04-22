@@ -10,19 +10,19 @@ flex-flow: column nowrap;
 align-items: space-between;
 justify-content: space-around;
 
-div {
+.title {
     display: flex;
     flex-flow: row nowrap;
     width: 100%;
     justify-content: space-between;
 }
 
-div>h3 {
+.title>h3 {
     font-size: 16px;
     color: var(--grey0)
 }
 
-div>button {
+.title>button {
     color: var(--grey0);
     border: none ;
     padding: 3px 9px;
@@ -31,6 +31,8 @@ div>button {
     font-size: 25px;
     font-weight: bold;
 }
+
+
 `
 
 export const StyledUl = styled.ul`

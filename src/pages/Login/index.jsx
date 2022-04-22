@@ -119,7 +119,7 @@ const submit = ({email, password}) => {
          
         <div className="containerInput">
           
-          <label htmlFor="pass">Senha {errors.pass?.message && <span className="error">- {errors.pass.message}</span>}</label>
+          <label htmlFor="pass">Senha {errors.password?.message && <span className="error">- {errors.password.message}</span>}</label>
           <InputBase
             {...register('password')}
             sx={{backgroundColor: 'var(--grey2)', width: '90%', borderRadius: '8px', height: '56px', padding: '15px', border: '1.22px solid var(--grey3)', color: 'var(--grey0)', cursor: 'text'}}

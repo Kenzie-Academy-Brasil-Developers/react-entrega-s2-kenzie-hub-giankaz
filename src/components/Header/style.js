@@ -25,6 +25,14 @@ div>p {
     color: var(--grey1);
     font-size: 14px;
 }
+
+@media screen and (max-width: 800px) {
+    & > div {
+        flex-flow: column nowrap;
+        align-items: flex-start;
+        gap: 20px;
+    }
+}
 `
 
 export const StyledH1 = styled.h1`
