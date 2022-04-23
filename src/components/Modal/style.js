@@ -87,4 +87,10 @@ div>label {
     display: flex;
     gap: 20px;
 }
+button:disabled {
+    background-color: rgba(89, 50, 63, 1) !important;
+    color: #371F27;
+ 
+    cursor: unset;
+}
 `

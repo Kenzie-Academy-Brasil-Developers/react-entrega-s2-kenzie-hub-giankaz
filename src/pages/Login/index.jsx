@@ -54,7 +54,7 @@ export default function Login({ setToken }) {
 			.then((res) => {
 				toast.success("Login realizado com sucesso, aguarde...!", {
 					position: "top-right",
-					autoClose: 2000,
+					autoClose: 1000,
 					hideProgressBar: false,
 					closeOnClick: true,
 					pauseOnHover: true,
@@ -68,12 +68,12 @@ export default function Login({ setToken }) {
 					window.localStorage.setItem("@Khub:token", JSON.stringify(token));
 					window.localStorage.setItem("@Khub:user", JSON.stringify(id));
 					history.push("/home");
-				}, 3000);
+				}, 2000);
 			})
 			.catch((err) => {
-				toast.error("Ops! Algo deu errado.", {
+				toast.error("Email ou senha incorretos.", {
 					position: "top-right",
-					autoClose: 5000,
+					autoClose: 3000,
 					hideProgressBar: false,
 					closeOnClick: true,
 					pauseOnHover: true,

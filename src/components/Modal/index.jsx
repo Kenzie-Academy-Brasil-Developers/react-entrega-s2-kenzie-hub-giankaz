@@ -26,20 +26,23 @@ export default function ModalStyled({
 }) {
 	const [title, setTitle] = useState("");
 	const [status, setStatus] = useState("");
-
+	const [isChanged, setIsChanged] = useState(false)
+	
 	useEffect(() => {
-		if (item.title) {
-			setTitle(item.title);
-		} else {
-			setTitle("");
-		}
+			if (item.title) {
+				setTitle(item.title);
+			} else {
+				setTitle("");
+			}
+			
+			if (item.status) {
+				setStatus(item.status)
+			} else {
+				setStatus("Iniciante")
+			}
+			setIsChanged(false)
 
-		if (item.status) {
-			setStatus(item.status);
-		} else {
-			setStatus("Iniciante");
-		}
-	}, [open]);
+	}, [open])
 
 	const token = JSON.parse(window.localStorage.getItem("@Khub:token"));
 
@@ -50,6 +53,7 @@ export default function ModalStyled({
 			setTitle(event.target.value);
 		} else {
 			setStatus(event.target.value);
+		    setIsChanged(true)
 		}
 	};
 
@@ -68,25 +72,29 @@ export default function ModalStyled({
 
 	const submit = ({ tech, status }) => {
 		if (check) {
-			Api.put(
-				`users/techs/${item.id}`,
-				{
-					status: status,
-				},
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
+			if (status==='') {
+
+			} else {
+				Api.put(
+					`users/techs/${item.id}`,
+					{
+						status: status,
 					},
-				}
-			)
-				.then((res) => {
-					setSuc(true);
-					setUpdate(!update);
-					handleClose();
-				})
-				.catch((error) => {
-					setErr(true);
-				});
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					}
+				)
+					.then((res) => {
+						setSuc(true);
+						setUpdate(!update);
+						handleClose();
+					})
+					.catch((error) => {
+						setErr(true);
+					});
+			}
 		} else {
 			Api.post(
 				"users/techs",
@@ -186,11 +194,11 @@ export default function ModalStyled({
 					</div>
 					<div className="containerBtn">
 						{check ? (
-							<button type="submit" className="btn">
-								Salvar alterações
+							<button type="submit" className="btn" disabled={isChanged ? false : true}>
+							{isChanged ? 'Salvar alterações' : 'Nada alterado'}
 							</button>
 						) : (
-							<button type="submit" className="btn">
+							<button type="submit" className="btn" >
 								Cadastrar Tecnologia
 							</button>
 						)}
