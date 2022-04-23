@@ -18,21 +18,6 @@ export default function Main() {
 	const id = JSON.parse(window.localStorage.getItem("@Khub:user"));
 
 	useEffect(() => {
-		setInterval(() => {
-			Api.get(`users/${id}`)
-				.then((res) => {
-					const techs = res.data.techs;
-					const inicial = techs.filter((value) => value.status === 'Iniciante')
-					const inter = techs.filter((value) => value.status === 'Intermediário')
-					const avan  = techs.filter((value) => value.status === 'Avançado')
-					setList([...inicial, ...inter, ...avan]);
-				})
-				.catch((err) => console.log(err));
-
-		}, 5000)
-	}, []);
-
-	useEffect(() => {
 		setTimeout(() => {
 			Api.get(`users/${id}`)
 				.then((res) => {
