@@ -27,6 +27,7 @@ export default function ModalStyled({
 	const [title, setTitle] = useState("");
 	const [status, setStatus] = useState("");
 	const [isChanged, setIsChanged] = useState(false)
+	const [noStatus, setNoStatus] = useState(false)
 	
 	useEffect(() => {
 			if (item.title) {
@@ -38,7 +39,7 @@ export default function ModalStyled({
 			if (item.status) {
 				setStatus(item.status)
 			} else {
-				setStatus("Iniciante")
+				setStatus("")
 			}
 			setIsChanged(false)
 
@@ -53,13 +54,24 @@ export default function ModalStyled({
 			setTitle(event.target.value);
 		} else {
 			setStatus(event.target.value);
-		    setIsChanged(true)
+			setNoStatus(false)
+			if (event.target.value === item.status) {
+				setIsChanged(false)
+			} else {
+				setIsChanged(true)
+			}
 		}
 	};
-
+	const requiredCheck = (msg1, msg2) => {
+		if (check) {
+		return yup.string()
+		} else {
+			return yup.string().required(msg1).max(25, msg2)
+		}
+	} 
 	const schema = yup.object().shape({
-		tech: yup.string(),
-		status: yup.string(),
+		tech: requiredCheck('Digite sua tecnologia', 'Máximo de 25 caracteres' ),
+		status: yup.string('Selecione seu nível', 'none'),
 	});
 
 	const {
@@ -71,9 +83,10 @@ export default function ModalStyled({
 	});
 
 	const submit = ({ tech, status }) => {
+		console.log( tech, status);
 		if (check) {
 			if (status==='') {
-
+				
 			} else {
 				Api.put(
 					`users/techs/${item.id}`,
@@ -96,29 +109,33 @@ export default function ModalStyled({
 					});
 			}
 		} else {
-			Api.post(
-				"users/techs",
-				{
-					title: tech,
-					status: status,
-				},
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
+			if (status === '') {
+				setNoStatus(true)
+			} else {
+				Api.post(
+					"users/techs",
+					{
+						title: tech,
+						status: status,
 					},
-				}
-			)
-				.then((res) => {
-					setSuc(true);
-					setUpdate(!update);
-					setStatus("Iniciante");
-					setTitle("");
-					handleClose();
-				})
-				.catch((err) => {
-					setErr(true);
-				});
-		}
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					}
+				)
+					.then((res) => {
+						setSuc(true);
+						setUpdate(!update);
+						setStatus("Iniciante");
+						setTitle("");
+						handleClose();
+					})
+					.catch((err) => {
+						setErr(true);
+					});
+			}
+			}
 	};
 
 	const handleDelete = () => {
@@ -149,7 +166,7 @@ export default function ModalStyled({
 				</div>
 				<Form onSubmit={handleSubmit(submit)}>
 					<div className="containerInput">
-						<label htmlFor="tech">Nome</label>
+						<label htmlFor="tech">Nome {errors.tech?.message && <span className='error'> - {errors.tech.message}</span>}</label>
 						<InputBase
 							{...register("tech")}
 							name="tech"
@@ -171,7 +188,7 @@ export default function ModalStyled({
 						/>
 					</div>
 					<div className="containerInput">
-						<label htmlFor="modulo">Selecionar status</label>
+						<label htmlFor="modulo">Selecionar status {noStatus && <span className="error"> - Selecione um nível</span>}</label>
 						<Select
 							{...register("status")}
 							sx={{

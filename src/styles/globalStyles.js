@@ -99,7 +99,8 @@ button:hover, a {
     -webkit-text-fill-color: var(--grey1);
 }
 .error {
-  color: var(--red)
+  color: var(--red);
+  font-size: 12px;
 }
 :root {
     --grey0: #F8F9FA;
